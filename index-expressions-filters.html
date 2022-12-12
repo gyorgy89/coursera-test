@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app="MsgApp">
+  <head>
+    <meta charset="utf-8">
+    <script src="angular.min.js" charset="utf-8"></script>
+    <script src="app.js" charset="utf-8"></script>
+    <title>Expressions and Interpollation</title>
+    <style>  {font-size: 1.2em;} </style>
+  <body>
+    <h1>Eypressions and Interpollation</h1>
+    <div ng-controller="MsgController">
+      {{name}} has a message for you:   <br>
+      {{sayMessage()}}
+      <button ng-click="feedYaakov()">Feed Yaakov</button>
+      Cost: {{ cookieCost | currency : "#blah" : 4}}
+      <br>
+      <img ng-src="images/yaakov_{{stateOfBeing}}.png">
+    </div>
+   {{name}}
+  </body>
+</html>

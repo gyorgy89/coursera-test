@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app="ShoppingListApp">
+  <head>
+    <meta charset="utf-8">
+    <script src="angular.min.js" charset="utf-8"></script>
+    <script src="app.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <title>Custom Services Through a Provider</title>
+    <style>  {font-size: 1.2em;} </style>
+  <body>
+    <h1>Custom Service Through a Provider</h1>
+
+    <div id="list" ng-controller="ShoppingListController as list">
+      <h3>Shopping List</h3>
+      <input type="text" ng-model="list.itemName" placeholder="Item name" />
+      <input type="text" ng-model="list.itemQuantity" placeholder="quantity" />
+      <button ng-click="list.addItem();">Add Item to Shopping List</button>
+      <ol>
+        <li ng-repeat="item in list.items">
+          {{ item.quantity}} of {{ item.name }}
+          <button ng-click="list.removeItem($index);">Remove</button>
+        </li>
+        <!-- <div ng-if="list.errorMessage" class="error">Error: {{list.errorMessage}}</div> -->
+        <!-- <div ng-show="list.errorMessage" class="error">Error: {{list.errorMessage}}</div> -->
+        <div ng-hide="!list.errorMessage" class="error">Error: {{list.errorMessage}}</div>
+      </ol>
+    </div>
+
+    <!-- Max 3 items  List 2  -->
+    <!-- <div id="list2" ng-controller="ShoppingListController2 as list2">
+      <h3>Shopping List #2</h3>
+      <input type="text" ng-model="list2.itemName" placeholder="Item name" />
+      <input type="text" ng-model="list2.itemQuantity" placeholder="quantity" />
+      <button ng-click="list2.addItem();">Add Item to Shopping List</button>
+      <ol>
+        <li ng-repeat="item in list2.items">
+          {{ item.quantity}} of {{ item.name }}
+          <button ng-click="list2.removeItem($index);">Remove</button>
+        </li>
+        <div class="error">Error: {{list2.errorMessage}}</div>
+      </ol>
+    </div> -->
+  </body>
+</html>
