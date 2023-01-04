@@ -15,13 +15,13 @@
       <div>
         <input type="text" ng-model="list.itemName" placeholder="Item name" />
         <input type="text" ng-model="list.itemQuantity" placeholder="quantity" />
-        <button ng-click="list.addItem();">Add Item</button>
+        <button ng-click="list.addItem();">Add Item to Shopping List</button>
         <span>Lastly removed item: {{list.lastRemoveItem}}</span>
       </div>
         
       <shopping-list items="list.items" title="{{list.title}}" on-remove="list.removeItem(index)"></shopping-list>
-
-      <loading-spinner></loading-spinner>
     </div>
+
+    <loading-spinner></loading-spinner>
   </body>
 </html>
