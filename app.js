@@ -79,12 +79,25 @@ function ShoppingListComponentController($rootScope, $element, $q, WeightLossFil
   }
 }
 
-WeightLossFilterService.$inject = ['$q']
-function WeightLossFilterService( $q) {
+WeightLossFilterService.$inject = ['$q','$timeout']
+function WeightLossFilterService( $q,$timeout) {
   var service = this;
 
   service.checkName = function(name) {
 
+    var deferred = $q.defer();
+    
+    //Timeout just to simulate the time it could take (e.g. 5sec)
+    $timeout(function() {
+      if(name.toLowerCase().indexOf("aa") !== -1) {
+        deferred.reject({status: 'error'});
+      }
+      else {
+        deferred.resolve(false);
+      }
+    }, 1000);
+    
+    return deferred.promise;
     if(name.toLowerCase().indexOf("aa") !== -1) {
       return $q.reject('my-failure-reason');
     } else {
