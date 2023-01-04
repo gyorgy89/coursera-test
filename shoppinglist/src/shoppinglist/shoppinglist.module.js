@@ -1,6 +1,6 @@
 (function () {
 'use strict';
 
-angular.module('ShoppingList',[]);
+angular.module('ShoppingList',['Spinner']);
 
 })();

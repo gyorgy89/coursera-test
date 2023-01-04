@@ -1,7 +1,7 @@
 (function () {
 'use strict';
 
-angular.module('ShoppingList',[])
+angular.module('ShoppingList')
 .component('shoppingList', {
   templateUrl: "src/shoppinglist/shoppinglist.template.html",
   controller: ShoppingListComponentController,
@@ -27,7 +27,7 @@ function ShoppingListComponentController($element, $rootScope, $q, WeightLossFil
 
   $ctrl.$doCheck = function () {
     if($ctrl.items.length !== totalItems) {
-      console.log("Number of Items changed. Checking for cokies...");
+      //console.log("Number of Items changed. Checking for cokies...");
       totalItems = $ctrl.items.length;
 
       $rootScope.$broadcast('shoppinglist:processing', {on: true});

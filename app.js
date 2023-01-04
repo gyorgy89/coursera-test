@@ -98,11 +98,6 @@ function WeightLossFilterService( $q,$timeout) {
     }, 1000);
     
     return deferred.promise;
-    if(name.toLowerCase().indexOf("aa") !== -1) {
-      return $q.reject('my-failure-reason');
-    } else {
-      return false;
-    }
   }  
 }
 

@@ -4,22 +4,27 @@
 angular.module('ShoppingList')
 .service('WeightLossFilterService', WeightLossFilterService);
 
-
-function WeightLossFilterService() {
+WeightLossFilterService.$inject = ['$q','$timeout']
+function WeightLossFilterService($q, $timeout) {
   var service = this;
 
   var items = [];
 
-  service.checkName = function() {
-    for( var i = 0; i < items.length; i++) {
-      var name = items[i].name;
-      if(name.toLowerCase().indexOf("cookie") !== -1) {
-        return true;
-      }
-    }
+  service.checkName = function(name) {
+    var deferred = $q.defer();
     
-    return false;
-  } 
+    //Timeout just to simulate the time it could take (e.g. 5sec)
+    $timeout(function() {
+      if(name.toLowerCase().indexOf("aa") !== -1) {
+        deferred.reject({status: 'error'});
+      }
+      else {
+        deferred.resolve(false);
+      }
+    }, 1000);
+    
+    return deferred.promise;
+  }  
 }
 
 })();
