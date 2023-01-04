@@ -1,10 +1,9 @@
 (function () {
 'use strict';
 
-angular.module('ShoppingListEventApp',[])
+angular.module('ShoppingListComponentApp',[])
 .controller('ShoppingListController', ShoppingListController)
 .factory('ShoppingListFactory', ShoppingListFactory)
-.service('WeightLossFilterService', WeightLossFilterService)
 .component('shoppingList', {
   templateUrl: "shoppingList.html",
   controller: ShoppingListComponentController,
@@ -13,38 +12,13 @@ angular.module('ShoppingListEventApp',[])
     myTitle: '@title',
     onRemove: '&',
   }
-})
-.component('loadingSpinner', {
-  templateUrl: 'spinner.html',
-  controller: SpinnerController
 });
 
-SpinnerController.$inject = ['$rootScope'];
-function SpinnerController($rootScope) {
+ShoppingListComponentController.$inject = ['$scope','$element']
+function ShoppingListComponentController($scope,$element) {
   var $ctrl = this;
-
-  var cancelListener = $rootScope.$on('shoppinglist:processing', function(event, data) {
-    console.log("Event: ", event);
-    console.log("Data: ", data);
-    //console.log(data);
-    if(data.on) {
-      $ctrl.showSpinner = true;
-    } else {
-      $ctrl.showSpinner = false;
-    }
-  });
-
-  $ctrl.$onDestroy = function () {
-    cancelListener();
-  }
-}
-
-ShoppingListComponentController.$inject = ['$element', '$rootScope', '$q', 'WeightLossFilterService']
-function ShoppingListComponentController($element, $rootScope, $q, WeightLossFilterService) {
-  var $ctrl = this;
-  var totalItems;
-
-  /*$ctrl.cookiesInList = function() {
+  
+  $ctrl.cookiesInList = function() {
     for( var i = 0; i < $ctrl.items.length; i++) {
       var name = $ctrl.items[i].name;
       if(name.toLowerCase().indexOf("cookie") !== -1) {
@@ -53,43 +27,24 @@ function ShoppingListComponentController($element, $rootScope, $q, WeightLossFil
     }
     
     return false;
-  }*/
+  }
 
   $ctrl.remove = function(myIndex) {
      $ctrl.onRemove({index: myIndex});
   }
 
   $ctrl.$onInit = function () {
-    totalItems = 0;
+    console.log("We are ib $onInit();");
   }
 
-  $ctrl.$doCheck = function () {
-    if($ctrl.items.length !== totalItems) {
-      console.log("Number of Items changed. Checking for cokies...");
-      totalItems = $ctrl.items.length;
+  $ctrl.$onChanges = function(changeObject) {
+    console.log(changeObject);
+  }
 
-      $rootScope.$broadcast('shoppinglist:processing', {on: true});
-      var promises = [];
-      for(var i = 0 ;i < $ctrl.items.length; i++) {
-        promises.push(WeightLossFilterService.checkName($ctrl.items[i].name));
-      }
-
-      $q.all(promises) 
-      .then(function (result) {
-        //remove cookie warning
-        var warningElement = $element.find('div.error');
-        warningElement.slideUp(900);
-      })
-      .catch( function (result) {
-        //show cookie warning
-        var warningElement = $element.find('div.error');
-         warningElement.slideDown(900);
-      })
-      .finally(function () {
-        $rootScope.$broadcast('shoppinglist:processing',{on: false});
-      });
-
-      /*if ($ctrl.cookiesInList()) {
+  $ctrl.$postLink = function () {
+    $scope.$watch('$ctrl.cookiesInList()', function (newValue, oldValue) {
+      console.log($element);
+      if (newValue === true) {
         //showwarning
          var warningElement = $element.find('div.error');
          warningElement.slideDown(900);
@@ -97,8 +52,8 @@ function ShoppingListComponentController($element, $rootScope, $q, WeightLossFil
         //Hidewarning
         var warningElement = $element.find('div.error');
          warningElement.slideUp(900);
-      }*/
-    }
+      }
+    })
   }
 }
 
@@ -125,25 +80,6 @@ function ShoppingListController(ShoppingListFactory) {
     list.lastRemoveItem = removedItem;
     list.title = origTitle + " (" + list.items.length + " items )";
   }
-}
-
-function WeightLossFilterService() {
-  var service = this;
-
-  var items = [];
-
-  service.checkName = function() {
-    for( var i = 0; i < items.length; i++) {
-      var name = items[i].name;
-      if(name.toLowerCase().indexOf("cookie") !== -1) {
-        return true;
-      }
-    }
-    
-    return false;
-  }
-
-  
 }
 
 function ShoppingListService(maxItems) {

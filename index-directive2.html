@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app="ShoppingListDirectiveApp">
+  <head>
+    <meta charset="utf-8">
+    <script src="angular.min.js" charset="utf-8"></script>
+    <script src="app.js" charset="utf-8"></script>
+    <title>Directive with with Isolated scope and '&'</title>
+    <style>  {font-size: 1.2em;} </style>
+  <body>
+    <h1>Directive with with Isolated scope and '&'</h1>
+
+    <div id="list1" ng-controller="ShoppingListController as list">
+      <input type="text" ng-model="list.itemName" placeholder="Item name" />
+      <input type="text" ng-model="list.itemQuantity" placeholder="quantity" />
+      <button ng-click="list.addItem();">Add Item to Shopping List</button>
+      <span>Lastli removed item: {{list.lastRemoveItem}}</span>
+
+      <shopping-list items="list.items" title="{{list.title}}" on-remove="list.removeItem(index)"></shopping-list>
+
+      <div class="error">Error: {{list.errorMessage}}</div>
+    </div>
+
+    <!-- Max 3 items  List 2  -->
+    <!-- <div id="list2" ng-controller="ShoppingListController2 as list2">
+      <input type="text" ng-model="list2.itemName" placeholder="Item name" />
+      <input type="text" ng-model="list2.itemQuantity" placeholder="quantity" />
+      <button ng-click="list2.addItem();">Add Item to Shopping List</button>
+      <shopping-list my-list="list2" title="Shopping List #2 (Max 3 items)"></shopping-list>
+      <div class="error">Error: {{list2.errorMessage}}</div>
+      
+    </div> -->
+  </body>
+</html>
